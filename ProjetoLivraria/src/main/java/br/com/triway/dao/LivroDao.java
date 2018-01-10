@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Logger;
 
 import br.com.triway.model.Livro;
@@ -36,12 +38,41 @@ public class LivroDao implements Dao<Livro, Integer> {
 			}
 			resultado.close();
 
-		} catch ( SQLException e) {
+		} catch (SQLException e) {
 			LOG.severe(e.toString());
 		}
-		
+
 		return livro;
+
 	}
+
+	public List<Livro> consultar(String titulo) {
+		ArrayList<Livro> lista = new ArrayList<Livro>();
+
+		try {
+			Connection conexao = FabricaConexao.getConexao();
+			PreparedStatement consulta = conexao.prepareStatement(CONSULTAR_SQL);
+			consulta.setString(1, "%" + titulo.toUpperCase() + "%");
+			ResultSet resultado = consulta.executeQuery();
+			while (resultado.next()) {
+				Livro livro = new Livro();
+				livro.setAutor(resultado.getString("AUTOR"));
+				livro.setCodigo(resultado.getInt("COD_LIVRO"));
+				livro.setImagem(resultado.getString("IMAGEM"));
+				livro.setPreco(resultado.getDouble("PRECO"));
+				livro.setTitulo(resultado.getString("TITULO"));
+				livro.setDescricao(resultado.getString("DESCRICAO"));
+				lista.add(livro);
+			}
+			resultado.close();
+		} catch (SQLException e) {
+			LOG.severe(e.toString());
+		}
+		return lista;
+
+	}
+
+
 
 	public void alterar(Livro entidade) {
 		// TODO Auto-generated method stub

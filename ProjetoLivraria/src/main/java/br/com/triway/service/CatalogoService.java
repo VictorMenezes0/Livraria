@@ -7,8 +7,12 @@ import br.com.triway.model.Livro;
 
 public class CatalogoService {
 	
+	public void  cadastroLivro(Livro livro) {
+		LivroDao dao = new LivroDao();
+		dao.salvar(livro);
+	}
 	public List<Livro> consultar(String titulo){
-		
+	
 		if(titulo == null) {
 			titulo = "";
 		}

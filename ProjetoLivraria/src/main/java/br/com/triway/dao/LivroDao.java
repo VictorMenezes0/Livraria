@@ -19,6 +19,23 @@ public class LivroDao implements Dao<Livro, Integer> {
 			+ " PRECO, DESCRICAO FROM ESTOQUE WHERE COD_LIVRO = ?";
 	private static final String CONSULTAR_SQL = "SELECT COD_LIVRO, TITULO, AUTOR, PRECO,"
 			+ " IMAGEM, DESCRICAO FROM ESTOQUE WHERE TITULO LIKE ?";
+	private static final String SALVAR_SQL = "INSERT INTO ESTOQUE (TITULO, AUTOR, PRECO, IMAGEM, DESCRICAO) VALUES (?,?,?,?,?)";
+
+	public void salvar(Livro livro) {
+
+		try {
+			Connection conexao = FabricaConexao.getConexao();
+				PreparedStatement consulta = conexao.prepareStatement(SALVAR_SQL);
+			consulta.setString(1, livro.getTitulo());
+			consulta.setString(2, livro.getAutor());
+			consulta.setDouble(3, livro.getPreco());
+			consulta.setString(4, livro.getImagem());
+			consulta.setString(5, livro.getDescricao());
+			consulta.execute();
+		} catch (SQLException e) {
+			LOG.severe(e.toString());
+		}
+	}
 
 	public Livro consultar(Integer codigo) {
 		Livro livro = null;
@@ -72,17 +89,11 @@ public class LivroDao implements Dao<Livro, Integer> {
 
 	}
 
-
-
 	public void alterar(Livro entidade) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void salvar(Livro entidade) {
-		// TODO Auto-generated method stub
-
-	}
 
 	public void remover(Livro entidade) {
 		// TODO Auto-generated method stub

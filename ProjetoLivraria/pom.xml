@@ -18,7 +18,8 @@
 			<version>9.1-901-1.jdbc4</version>
 			<scope>compile</scope>
 		</dependency>
-		
+
+		<!-- Mojarra (implementação do JSF 2) -->
 		<dependency>
 			<groupId>org.glassfish</groupId>
 			<artifactId>javax.faces</artifactId>
